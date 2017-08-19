@@ -1,7 +1,20 @@
-'-------------------------------------------
-' Autor : Benoit SARDA
-'-------------------------------------------
-'On Error Resume Next
+'----------------------------------------------------------
+' Plugin for OCS Inventory NG 2.x
+' Script :		Retrieve Windows services informations
+' Version :		1.10
+' Date :		11/08/2017
+' Author :		Benoit SARDA
+' Contributor :	Stéphane PAUTREL (acb78.com)
+'----------------------------------------------------------
+' OS checked [X] on		32b	64b	(Professionnal edition)
+'	Windows XP		[X]	[ ]
+'	Windows 7		[X]	[X]
+'	Windows 8.1		[X]	[X]	
+'	Windows 10		[X]	[X]
+' ---------------------------------------------------------
+' NOTE : No checked on Windows Vista and Windows 8
+' ---------------------------------------------------------
+On Error Resume Next
 
 Function replaceSpecialCar(sText)
 	If IsNull(sText) Then Exit Function
@@ -196,23 +209,23 @@ End Function
  
  
 ' récupère en wmi la liste des services
-' l'ordinateur local
-strComputer = "."
-Set objWMIService = GetObject("winmgmts:" & "{impersonationLevel=Impersonate}!\\" & strComputer & "\root\cimv2")
+Set objWMIService = GetObject("winmgmts:" & "{impersonationLevel=Impersonate}!\\.\root\cimv2")
 Set listServices = objWMIService.ExecQuery("Select * From Win32_Service",,48)
  
 ' le loop, pour chaque service
 For Each objService In listServices
+
+	' Translation for other language
+	If objService.State = "Running" Then
+		srvState = "Démarré"
+	ElseIf objService.State = "Stopped" Then
+		srvState = "Arrêté"
+	End If
+
 	WScript.Echo _
-			"<SERVICE>" & VbCrLf &_
-			"<SVCNAME>" & objService.Name & "</SVCNAME>" & VbCrLf &_
-			"<SVCDN>" & replaceSpecialCar(objService.DisplayName) & "</SVCDN>" & VbCrLf &_
-			"<SVCSTATE>" & objService.State & "</SVCSTATE>" & VbCrLf &_
-			"<SVCDESC>" & replaceSpecialCar(objService.Description) & "</SVCDESC>" & VbCrLf &_
-			"<SVCSTARTMODE>" & objService.StartMode & "</SVCSTARTMODE>" & VbCrLf &_
-			"<SVCPATH>" & objService.PathName & "</SVCPATH>" & VbCrLf &_
-			"<SVCSTARTNAME>" & objService.StartName & "</SVCSTARTNAME>" & VbCrLf &_
-			"<SVCEXITCODE>" & objService.ExitCode & "</SVCEXITCODE>" & VbCrLf &_
-			"<SVCSPECEXITCODE>" & objService.ServiceSpecificExitCode & "</SVCSPECEXITCODE>" & VbCrLf &_
-			"</SERVICE>"
+		"<SERVICE>" & VbCrLf &_
+		"<SVCNAME>" & objService.Name & "</SVCNAME>" & VbCrLf &_
+		"<SVCSTATE>" & replaceSpecialCar(srvState) & "</SVCSTATE>" & VbCrLf &_
+		"<SVCDESC>" & replaceSpecialCar(objService.Description) & "</SVCDESC>" & VbCrLf &_
+		"</SERVICE>"
 Next
