@@ -4,15 +4,16 @@
 ' Version :		1.10
 ' Date :		11/08/2017
 ' Author :		Benoit SARDA
-' Contributor :	Stéphane PAUTREL (acb78.com)
+' Contributor :		Stéphane PAUTREL (acb78.com)
 '----------------------------------------------------------
-' OS checked [X] on		32b	64b	(Professionnal edition)
-'	Windows XP		[X]	[ ]
-'	Windows 7		[X]	[X]
-'	Windows 8.1		[X]	[X]	
-'	Windows 10		[X]	[X]
+' OS checked [X] on	32b	64b	(Professionnal edition)
+'	Windows XP	[X]	[ ]
+'	Windows Vista	[X]	[X]
+'	Windows 7	[X]	[X]
+'	Windows 8.1	[X]	[X]	
+'	Windows 10	[X]	[X]
 ' ---------------------------------------------------------
-' NOTE : No checked on Windows Vista and Windows 8
+' NOTE : No checked on Windows 8
 ' ---------------------------------------------------------
 On Error Resume Next
 
